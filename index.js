@@ -4,6 +4,7 @@ const app = express()
 const port = 5000
 
 const { User } = require("./models/User");
+const { auth } = require("./middleware/auth");
 const bodyParer = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('./config/key');
@@ -21,7 +22,7 @@ app.use(bodyParer.urlencoded({ extended: true }));
 app.use(bodyParer.json());
 app.use(cookieParser());
 
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
     // 회원가입 할때 필요한 정보들을 client에서 가져오면
     // 그것들을 데이터베이스에 넣어준다.
     const user = new User(req.body)
@@ -33,7 +34,7 @@ app.post('/register', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     // 요청된 이메일을 데이터베이스에 있는지 찾는다.
     User.findOne({ email: req.body.email }, (err, user) => {
         if (!user) {
@@ -61,6 +62,22 @@ app.post('/login', (req, res) => {
         })
     })
 })
+
+// auth_route
+app.get('/api/users/auth', auth, (req, res) => {
+    // 여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 true라는 의미.
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true, // role이 1인 유저가 어드민, 0이 일반 유저
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    })
+})
+
 
 app.get('/', (req, res) => res.send('Hello World! ~하이~~~'))
 
