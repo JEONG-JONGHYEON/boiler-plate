@@ -22,6 +22,7 @@ app.use(bodyParer.urlencoded({ extended: true }));
 app.use(bodyParer.json());
 app.use(cookieParser());
 
+// register
 app.post('/api/users/register', (req, res) => {
     // 회원가입 할때 필요한 정보들을 client에서 가져오면
     // 그것들을 데이터베이스에 넣어준다.
@@ -34,6 +35,7 @@ app.post('/api/users/register', (req, res) => {
     })
 })
 
+// login
 app.post('/api/users/login', (req, res) => {
     // 요청된 이메일을 데이터베이스에 있는지 찾는다.
     User.findOne({ email: req.body.email }, (err, user) => {
@@ -63,6 +65,16 @@ app.post('/api/users/login', (req, res) => {
     })
 })
 
+// logout
+app.get('/api/users/logout', auth, (req, res) => {
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).send({
+            logoutSuccess: true
+        })
+    })
+})
+
 // auth_route
 app.get('/api/users/auth', auth, (req, res) => {
     // 여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 true라는 의미.
@@ -77,7 +89,6 @@ app.get('/api/users/auth', auth, (req, res) => {
         image: req.user.image
     })
 })
-
 
 app.get('/', (req, res) => res.send('Hello World! ~하이~~~'))
 
