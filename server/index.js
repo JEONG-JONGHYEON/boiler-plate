@@ -1,7 +1,7 @@
 // 백엔드 시작점
 const express = require('express')
 const app = express()
-const port = 5000
+
 
 const { User } = require("./models/User");
 const { auth } = require("./middleware/auth");
@@ -91,5 +91,11 @@ app.get('/api/users/auth', auth, (req, res) => {
 })
 
 app.get('/', (req, res) => res.send('Hello World! ~하이~~~'))
+
+app.get('/api/hello', (req, res) => {
+    res.send('Hello ~')
+})
+
+const port = 5000
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

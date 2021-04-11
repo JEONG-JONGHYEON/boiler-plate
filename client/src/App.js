@@ -2,8 +2,7 @@
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import LandingPage from './components/views/LandingPage/LandingPage';
@@ -22,7 +21,7 @@ function App() {
           of them to render at a time
         */}
         <Switch>
-          <Route exact path="/" component={LandingPage} />  {/*한줄로 표현 가능 */}
+          <Route exact path="/" component={LandingPage} />  {/* 한줄로 표현 가능 */}
           <Route path="/login">
             <LoginPage />
           </Route>
