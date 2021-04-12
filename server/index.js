@@ -49,7 +49,7 @@ app.post('/api/users/login', (req, res) => {
         // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 맞는지 확인한다.
         user.comparePassword(req.body.password, (err, isMatch) => {
             if (!isMatch)
-                return res.json({ loginSuceess: false, message: "비밀번호가 틀렸습니다." })
+                return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다." })
 
             // 비밀번호가 같다면 Token을 생성한다.
             user.generateToken((err, user) => {
@@ -59,7 +59,7 @@ app.post('/api/users/login', (req, res) => {
                 // 쿠키에 저장하기로 결정.
                 res.cookie("x_auth", user.token)
                     .status(200)
-                    .json({ loginSuceess: true, userId: user._id })
+                    .json({ loginSuccess: true, userId: user._id })
             })
         })
     })
