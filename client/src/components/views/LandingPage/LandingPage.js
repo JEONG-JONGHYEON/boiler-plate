@@ -29,7 +29,7 @@ function LandingPage(props) {
             <h2>
                 Landing Page
             <br />
-            시작 페이지
+                시작 페이지
             </h2>
 
             <button onClick={onClickHandler}>
