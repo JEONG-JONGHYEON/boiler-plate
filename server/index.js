@@ -41,7 +41,7 @@ app.post('/api/users/login', (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
         if (!user) {
             return res.json({
-                loginSuceess: false,
+                loginSuccess: false,
                 message: "입력한 이메일에 해당하는 유저가 없습니다."
             })
         }
